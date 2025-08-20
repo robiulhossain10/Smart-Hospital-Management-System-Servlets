@@ -1,6 +1,6 @@
 <%-- 
-    Document   : adminDashboard
-    Created on : Aug 20, 2025, 9:04:36 PM
+    Document   : appoinment
+    Created on : Aug 20, 2025, 9:49:44 PM
     Author     : ROBIUL
 --%>
 
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title>JSP Page</title>
     </head>
     <body>
         <h1>Hello World!</h1>
