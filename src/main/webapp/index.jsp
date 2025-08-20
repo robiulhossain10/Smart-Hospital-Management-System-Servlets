@@ -1,3 +1,10 @@
+<%-- 
+    Document   : index
+    Created on : Aug 20, 2025, 9:00:10 PM
+    Author     : ROBIUL
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,3 +15,4 @@
         <h1>Hello World!</h1>
     </body>
 </html>
+
