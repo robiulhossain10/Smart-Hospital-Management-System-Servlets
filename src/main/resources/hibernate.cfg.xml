@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC
- "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
- "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
 <hibernate-configuration>
     <session-factory>
-       <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-<property name="hibernate.connection.url">jdbc:mysql://mysql-av-robiulhossain0110-9408.j.aivencloud.com:24544/hospitaldb?ssl-mode=REQUIRED</property>
-<property name="hibernate.connection.username">avnadmin</property>
-<property name="hibernate.connection.password">AVNS_sofXB2D2Fw3rdy766LM</property>
-<     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <!-- Database connection -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://mysql-av-robiulhossain0110-9408.j.aivencloud.com:24544/smart_hospital?ssl-mode=REQUIRED</property>
+        <property name="hibernate.connection.username">avnadmin</property>
+        <property name="hibernate.connection.password">AVNS_sofXB2D2Fw3rdy766LM</property>
+
+        <!-- SQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+
+        <!-- Show SQL -->
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
 
-   <!-- SQL dialect -->
+        <!-- Auto schema creation/update -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
+        <!-- Context -->
+        <property name="hibernate.current_session_context_class">thread</property>
 
-         Echo SQL to stdout 
-        <property name="show_sql">true</property>
-        <property name="format_sql">true</property>
-
-         Schema generation (use 'update' for dev; 'validate' for prod) 
-        <property name="hbm2ddl.auto">update</property>-->
-
-        <mapping class="com.methods.bank.hibernatecrud.entity.Student"/>
-    <mapping class="com.methods.bank.hibernatecrud.entity.Department"/>
-    <mapping class="com.methods.bank.hibernatecrud.entity.Teacher"/>
+        <!-- Mapping entity -->
+        <mapping class="com.methods.servlets.hospitalwithservlets.entity.Patient"/>
     </session-factory>
 </hibernate-configuration>
