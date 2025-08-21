@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://mysql-av-robiulhossain0110-9408.j.aivencloud.com:24544/smart_hospital?ssl-mode=REQUIRED</property>
+        <property name="hibernate.connection.username">avnadmin</property>
+        <property name="hibernate.connection.password">AVNS_sofXB2D2Fw3rdy766LM</property>
+
+        <!-- SQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+
+        <!-- Show SQL -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+
+        <!-- Auto schema creation/update -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Context -->
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <!-- Mapping entity -->
+        <mapping class="com.methods.servlets.hospitalwithservlets.entity.Patient"/>
+    </session-factory>
+</hibernate-configuration>
