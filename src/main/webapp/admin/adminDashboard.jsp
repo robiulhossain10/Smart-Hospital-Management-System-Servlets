@@ -73,7 +73,7 @@
                             <span class="font-medium">Dashboard</span>
                         </a>
                         
-                        <a href="#" class="group flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-white/10">
+                        <a href="../patients" class="group flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-white/10">
                             <div class="p-2 bg-green-500/20 rounded-lg group-hover:bg-green-400/30 transition-colors">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
