@@ -17,7 +17,7 @@
     </properties>
     
     <dependencies>
-        <!-- Jakarta EE 11 API (Servlet, JSP, JSTL, JPA) -->
+        <!-- Jakarta EE 11 API (provided by Tomcat 11) -->
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
@@ -25,14 +25,14 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Hibernate Core (Hibernate 6.x / Hibernate 11 API compatible) -->
+        <!-- Hibernate Core -->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>6.2.7.Final</version>
         </dependency>
 
-        <!-- MySQL Connector (verified version available in Maven Central) -->
+        <!-- MySQL Connector -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -45,12 +45,27 @@
             <artifactId>jboss-logging</artifactId>
             <version>3.5.1.Final</version>
         </dependency>
-        
+
+        <!-- Persistence API -->
         <dependency>
-    <groupId>jakarta.persistence</groupId>
-    <artifactId>jakarta.persistence-api</artifactId>
-    <version>3.1.0</version>
-</dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <!-- JSTL API for Jakarta EE 11 -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <!-- JSTL Implementation -->
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>
