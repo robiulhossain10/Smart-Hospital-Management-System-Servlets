@@ -4,6 +4,12 @@
  */
 package com.methods.servlets.hospitalwithservlets.servlets;
 
+import com.methods.servlets.hospitalwithservlets.dao.DoctorDAO;
+import com.methods.servlets.hospitalwithservlets.dao.PatientDAO;
+import com.methods.servlets.hospitalwithservlets.dao.UserDAO;
+import com.methods.servlets.hospitalwithservlets.entity.Patient;
+import com.methods.servlets.hospitalwithservlets.entity.User;
+import com.methods.servlets.hospitalwithservlets.utils.HibernateConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,77 +17,165 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import org.hibernate.Session;
 
 /**
  *
- * @author ROBIUL
+ * @author FAHIM
  */
-@WebServlet(name = "LoginServlets", urlPatterns = {"/LoginServlets"})
+@WebServlet(name = "LoginServlets", urlPatterns = {"/Login"})
 public class LoginServlets extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginServlets</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginServlets at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
+ 
+        UserDAO userDao = new UserDAO();
+   
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        
+        
+         request.getRequestDispatcher("view/login.jsp").forward(request, response);
+        
+        
+     
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+  
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        
+            
+             String role = request.getParameter("role");
+                
+                switch(role){
+                
+                    case "patient" -> validatePatient(request,response);
+                     case "doctor" -> validateDoctor(request,response);
+            
+                
+                }
+        
+        
+        
+        
+        
+        
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    private void validatePatient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    
+        
+                 String username = request.getParameter("name");
+        String phone = request.getParameter("phone");
+        String date = request.getParameter("date");
+        
+       
+        if (username == null || username.trim().isEmpty() || 
+            phone == null || phone.trim().isEmpty()|| date.isEmpty()  )  {
+            request.setAttribute("error", "Please enter both Username & Phone & date");
+            request.getRequestDispatcher("view/login.jsp").forward(request, response);
+            
+        }
+        
+        try {
+            // Validate user credentials
+            if (userDao.validateUser(username,phone,date)) {
+                // Get user details
+                User user = userDao.getUserByUsername(username.trim());
+                
+                if (user != null) {
+                    // Update last login
+                    userDao.updateLastLogin(username.trim());
+                    
+                    // Create session
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
+                    session.setAttribute("username", user.getUsername());
+                  
+                    session.setMaxInactiveInterval(30 * 60); // 30 minutes
+                    
+                    // Redirect to dashboard
+                    response.sendRedirect(request.getContextPath() + "/patients");
+                    
+                } else {
+                    request.setAttribute("error", "User account not found");
+                    request.getRequestDispatcher("view/login.jsp").forward(request, response);
+                }
+            } else {
+                request.setAttribute("error", "Invalid username or password");
+                request.getRequestDispatcher("view/login.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "System error. Please try again later.");
+            request.getRequestDispatcher("view/login.jsp").forward(request, response);
+        }
+        
+        
+       
+        
+    }
 
-}
+    private void validateDoctor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+     
+                 String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        
+        // Basic validation
+        if (username == null || username.trim().isEmpty() || 
+            password == null || password.trim().isEmpty()) {
+            request.setAttribute("error", "Please enter both username and password");
+            request.getRequestDispatcher("view/login.jsp").forward(request, response);
+           
+        }
+        
+        try {
+            // Validate user credentials
+            if (userDao.validateUser(username.trim(), password)) {
+                // Get user details
+                User user = userDao.getUserByUsername(username.trim());
+                
+                if (user != null) {
+                    // Update last login
+                    userDao.updateLastLogin(username.trim());
+                    
+                    // Create session
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
+                    session.setAttribute("username", user.getUsername());
+                  
+                    session.setMaxInactiveInterval(30 * 60); // 30 minutes
+                    
+                    // Redirect to dashboard
+                    response.sendRedirect(request.getContextPath() + "/Dashboard");
+                    
+                } else {
+                    request.setAttribute("error", "User account not found");
+                    request.getRequestDispatcher("WEB-INF/pages/Login.jsp").forward(request, response);
+                }
+            } else {
+                request.setAttribute("error", "Invalid username or password");
+                request.getRequestDispatcher("WEB-INF/pages/Login.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "System error. Please try again later.");
+            request.getRequestDispatcher("WEB-INF/pages/Login.jsp").forward(request, response);
+        }
+    }
+        
+        
+        
+    }
+    
+    
+    
+
+

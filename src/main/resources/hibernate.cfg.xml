@@ -26,5 +26,6 @@
 
         <!-- Mapping entity -->
         <mapping class="com.methods.servlets.hospitalwithservlets.entity.Patient"/>
+        <mapping class="com.methods.servlets.hospitalwithservlets.entity.User"/>
     </session-factory>
 </hibernate-configuration>

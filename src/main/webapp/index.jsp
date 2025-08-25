@@ -2,4 +2,5 @@
     pageEncoding="UTF-8"%>
 <%
     response.sendRedirect("admin/adminDashboard.jsp");
+    //response.sendRedirect("view/login.jsp");
 %>
